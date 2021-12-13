@@ -1,0 +1,196 @@
+{
+  "name": "smslink",
+  "vendor": "vtex",
+  "version": "0.2.1",
+  "title": "SMSLink",
+  "description": "This application allows the sending of transactional SMS messages to customers using SMSLink SMS Gateway",
+  "categories": [],
+  "dependencies": {
+    "vtex.styleguide": "9.x"
+  },
+  "builders": {
+    "node": "6.x",
+    "docs": "0.x",
+    "messages": "1.x"
+  },
+  "scripts": {
+    "prereleasy": "bash lint.sh"
+  },
+  "credentialType": "absolute",
+  "policies": [
+    {
+      "name": "colossus-fire-event"
+    },
+    {
+      "name": "colossus-write-logs"
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "{{account}}.vtexcommercestable.com.br",
+        "path": "/api/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "api.vtex.com",
+        "path": "/dataentities/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "splunk-heavyforwarder-public.vtex.com",
+        "path": "*"
+      }
+    },
+    {
+      "name": "OMSViewer"
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "secure.smslink.ro",
+        "path": "/*"
+      }
+    }
+  ],
+  "settingsSchema": {
+    "title": "VTEX SMSLink",
+    "type": "object",
+    "properties": {
+      "enableSandbox": {
+        "title": "Enable Test Mode",
+        "type": "boolean",
+        "default": false
+      },
+      "connectionID": {
+        "title": "Connection ID",
+        "type": "string",
+        "description": "Connection ID key"
+      },
+      "password": {
+        "title": "Password",
+        "type": "string",
+        "description": "Connection password"
+      },
+      "allowSendOrderReceivedSMS": {
+        "title": "Send Order received SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent on receiving the Order"
+      },
+      "orderReceivedText": {
+        "title": "Order received SMS message",
+        "type": "string",
+        "default": "We received your order {order_id}",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "description": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowPaymentAuthorizedSMS": {
+        "title": "Send Online payment authorized SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent on receiving the Order Payment confirmation"
+      },
+      "onlinePaymentAuthorizedText": {
+        "title": "Online payment Authorized SMS message",
+        "type": "string",
+        "default": "Order {order_id} payment authorized",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "description": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowPaymentErrorSMS": {
+        "title": "Send Online payment error SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent on Payment failure"
+      },
+      "onlinePaymentErrorText": {
+        "title": "Online payment error SMS message",
+        "type": "string",
+        "default": "Order {order_id} payment error",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "description": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowCancelledOrderSMS": {
+        "title": "Send Order cancelled SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent on cancelling an Order"
+      },
+      "orderCancelledText": {
+        "title": "Order cancelled SMS message",
+        "type": "string",
+        "default": "Order {order_id} cancelled",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "description": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowSendReturnRequestSMS": {
+        "title": "Send Return request SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent when a Return request is received."
+      },
+      "sendReturnRequestText": {
+        "title": "Return request received SMS message",
+        "type": "string",
+        "default": "New return request {request_id} received",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "decription": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowSendReturnedParcelReceivedSMS": {
+        "title": "Send Returned parcel received by store SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent when a Return parcel is received."
+      },
+      "sendReturnedParcelReceivedText": {
+        "title": "Send Returned parcel received by store SMS message",
+        "type": "string",
+        "default": "Returned parcel {request_id} received by store",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "decription": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowSendReturnRequestFinalizedSMS": {
+        "title": "Return request finalized SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent when a Return request is finalized."
+      },
+      "sendReturnRequestFinalizedText": {
+        "title": "Return request finalized SMS message",
+        "type": "string",
+        "default": "Return request {request_id} finalized",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "decription": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      },
+      "allowSendReturnRequestDeniedSMS": {
+        "title": "Return request denied SMS",
+        "type": "boolean",
+        "default": true,
+        "description": "If active a SMS will be sent when a Return request is denied."
+      },
+      "sendReturnRequestDeniedText": {
+        "title": "Return request denied SMS message",
+        "type": "string",
+        "default": "Return request {request_id} denied",
+        "pattern": "[a-zA-Z0-9 \\!\\@\\#\\$\\%\\&\\*\\(\\)\\_\\+\\-\\=\\;\\:\\,\\.\\<\\>\\/\\?\\[\\]\\{\\}\\|\\^\\~\\\\\"\\'\\`\\{\\}\\\r\\\n\\\t]$",
+        "decription": "The <message> string can only contain: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()_+--+=;:,.<>/?[]{}|^~\\\"'` and \r (carriage return), \n (line feed), \t (tab)."
+      }
+    },
+    "required": [
+      "connectionID",
+      "password"
+    ]
+  },
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+}
