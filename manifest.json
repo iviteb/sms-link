@@ -1,7 +1,7 @@
 {
   "name": "smslink",
   "vendor": "vtex",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "title": "SMSLink",
   "description": "This application allows the sending of transactional SMS messages to customers using SMSLink SMS Gateway",
   "categories": [],
