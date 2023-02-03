@@ -56,6 +56,9 @@
       "name": "OMSViewer"
     },
     {
+      "name": "ListOrders"
+    },
+    {
       "name": "outbound-access",
       "attrs": {
         "host": "secure.smslink.ro",
