@@ -42,6 +42,17 @@ export const isMessageValid = (message: string) => {
 export const formatMessage = (message: string, data: any, type = 'order') => {
   let newMessage = message
 
+  const { creationDate } = data
+  const estimateDays = data.shippingData?.logisticsInfo?.[0]?.shippingEstimate
+  const estimateDate = data.shippingData?.logisticsInfo?.[0]?.shippingEstimateDate
+
+  let orderDate = estimateDate ? new Date(estimateDate) : new Date(creationDate)
+  if (!estimateDate) {
+    orderDate.setDate(orderDate.getDate() + Number(String(estimateDays)?.replace(/\D/g, '')))
+  }
+
+  const formattedOrderDate = new Intl.DateTimeFormat('ro-RO', { day: "numeric", month: "long", year: "numeric" }).format(orderDate)
+
   if (type === 'order') {
     newMessage = newMessage
       .replace('{order_id}', data.orderId)
@@ -49,6 +60,7 @@ export const formatMessage = (message: string, data: any, type = 'order') => {
       .replace('{last_name}', data.clientProfileData.lastName)
       .replace('{email}', data.clientProfileData.email)
       .replace('{order_total}', (Number(data.value) / 100).toString())
+      .replace('{order_date}', formattedOrderDate)
   }
 
   if (type === 'refund') {
