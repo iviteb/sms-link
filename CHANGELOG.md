@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.0] - 2023-04-26
+
 - Added {delivery_date} as optional variable in SMS messages. This is the date when the order will be delivered. 
 
 ## [0.2.3] - 2023-02-03
